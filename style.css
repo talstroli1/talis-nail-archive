@@ -1,0 +1,93 @@
+
+
+/* מבנה הבסיס של הפריים (תוודא שיש לו גודל מוגדר) */
+.frame {
+    width: 300px; /* או כל גודל אחר שמתאים לך */
+    height: 200px;
+    margin: 10px;
+    border: 2px solid #ccc; /* מסגרת דוגמה */
+    /* overflow: visible; *//* וודא שזה לא hidden כדי שהתמונה תוכל לצאת */
+}
+
+/* המיכל של התמונות */
+.img-wrapper {
+    position: relative;
+    display: block; /* או inline-block, תלוי בפריסה שלך */
+    width: 100%;
+    height: 100%;
+    
+    /* מוסיף מעבר חלק לכל השינויים */
+    transition: transform 0.3s ease; 
+}
+
+/* הגדרות לתמונות עצמן בתוך המיכל */
+.img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* מבטיח שהתמונה תמלא את הפריים בלי להתעוות */
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    /* מעבר חלק להעלמה/הופעה של התמונות */
+    transition: opacity 0.3s ease;
+}
+
+/* מסתיר את תמונת הריחוף כברירת מחדל (על ידי שקיפות) */
+.img-hover {
+    opacity: 0;
+}
+
+
+/* כשמעבירים עכבר על המיכל: */
+.img-wrapper:hover {
+    /* מגדיל את כל המיכל ב-10% וגורם לו לצאת מהמסגרת */
+    transform: scale(1.1); 
+    
+    /* מציף את האלמנט מעל אחרים אם צריך */
+    z-index: 10; 
+}
+
+.img-wrapper:hover .img-main {
+    /* מסתיר את התמונה הראשית (על ידי שקיפות) */
+    opacity: 0; 
+}
+
+.img-wrapper:hover .img-hover {
+    /* מציג את תמונת הריחוף (על ידי שקיפות) */
+    opacity: 1; 
+}
+.title-wrapper{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.instagram-link{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:black;
+  transition:.2s ease;
+}
+
+.instagram-link:hover{
+  opacity:.6;
+}
+.title-wrapper{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.instagram-link{
+  display:flex;
+  align-items:center;
+  color:black;
+  text-decoration:none;
+  line-height:1;
+}
+
+.instagram-link:hover{
+  opacity:.6;
+}

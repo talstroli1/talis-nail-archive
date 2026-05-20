@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery - Talis Nails</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    body{
+      font-family:'Space Grotesk',sans-serif;
+      background:white;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    /* TOP BAR */
+
+    .top-bar{
+      padding:16px;
+      border-bottom:1px solid #eee;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    .title{
+      font-size:18px;
+      letter-spacing:1px;
+    }
+
+    /* FILTERS */
+
+    .filters{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      position:relative;
+    }
+
+    .filter-btn{
+      border:1px solid black;
+      background:white;
+      padding:10px 14px;
+      font-family:'Space Grotesk',sans-serif;
+      font-size:13px;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .filter-btn:hover{
+      background:black;
+      color:white;
+    }
+
+    /* CLIENT DROPDOWN */
+
+    .client-wrapper{
+      position:relative;
+    }
+
+    .client-dropdown{
+      position:absolute;
+      top:100%;
+      left:0;
+      background:white;
+      border:1px solid black;
+      min-width:180px;
+      display:none;
+      flex-direction:column;
+      z-index:100;
+    }
+
+    .client-wrapper:hover .client-dropdown{
+      display:flex;
+    }
+
+    .client-option{
+      padding:10px 14px;
+      cursor:pointer;
+      border-bottom:1px solid #eee;
+      font-size:13px;
+      transition:.2s ease;
+      background:white;
+    }
+
+    .client-option:last-child{
+      border-bottom:none;
+    }
+
+    .client-option:hover{
+      background:black;
+      color:white;
+    }
+
+    /* GALLERY */
+
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+      gap:16px;
+      padding:16px;
+      flex-grow:1;
+    }
+
+    .frame{
+      border:1px solid black;
+      aspect-ratio:1/1;
+      background:#f5f5f5;
+      position:relative;
+      overflow:visible;
+    }
+
+    .img-link{
+      display:block;
+      width:100%;
+      height:100%;
+      position:relative;
+      text-decoration:none;
+      z-index:1;
+      transition:transform .4s cubic-bezier(0.165,0.84,0.44,1);
+    }
+
+    .img-link img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transition:filter .3s ease;
+    }
+
+    /* HOVER */
+
+    .frame:hover .img-link{
+      transform:scale(1.15);
+      z-index:10;
+    }
+
+    .frame:hover img{
+      filter:brightness(.85);
+    }
+
+    /* TEXT */
+
+    .date-text,
+    .name{
+      position:absolute;
+      color:white;
+      font-size:14px;
+      font-weight:400;
+      letter-spacing:1px;
+      opacity:0;
+      transition:opacity .3s ease;
+      pointer-events:none;
+      text-shadow:1px 1px 4px rgba(0,0,0,.5);
+      z-index:20;
+    }
+
+    .date-text{
+      left:10px;
+      bottom:10px;
+    }
+
+    .name{
+      right:10px;
+      bottom:10px;
+    }
+
+    .frame:hover .date-text,
+    .frame:hover .name{
+      opacity:1;
+    }
+
+    /* FOOTER */
+
+    .footer{
+      padding:16px;
+      font-size:14px;
+      display:flex;
+      justify-content:space-between;
+      border-top:1px solid #eee;
+    }
+
+    .title-wrapper {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+
+  <div class="top-bar">
+
+<div class="title-wrapper">
+
+  <div class="title">
+    TALIS NAILS ARCHIVE
+  </div>
+
+  <a 
+    href="https://www.instagram.com/talis.nail?igsh=MWl2aDc5NXR3czMw&utm_source=qr"
+    target="_blank"
+    class="instagram-link"
+  >
+
+    <svg 
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+
+      <path d="M16 11.37a4 4 0 1 1-7.75 1.26 4 4 0 0 1 7.75-1.26z"></path>
+
+      <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
+
+    </svg>
+
+  </a>
+
+</div>
+    <div class="filters">
+
+      <button class="filter-btn" onclick="sortGallery('new')">
+        newer to older
+      </button>
+
+      <button class="filter-btn" onclick="sortGallery('old')">
+        older to newer
+      </button>
+
+      <!-- CLIENT -->
+
+      <div class="client-wrapper">
+
+        <button class="filter-btn">
+          client
+        </button>
+
+        <div class="client-dropdown">
+
+          <div class="client-option" onclick="filterByClient('all')">all clients</div>
+
+          <div class="client-option" onclick="filterByClient('abigail')">abigail</div>
+          <div class="client-option" onclick="filterByClient('ahuva')">ahuva</div>
+          <div class="client-option" onclick="filterByClient('amit')">amit</div>
+          <div class="client-option" onclick="filterByClient('bat-hen')">bat-hen</div>
+          <div class="client-option" onclick="filterByClient('eden')">eden</div>
+          <div class="client-option" onclick="filterByClient('giti')">giti</div>
+          <div class="client-option" onclick="filterByClient('kohelet')">kohelet</div>
+          <div class="client-option" onclick="filterByClient('maya')">maya</div>
+          <div class="client-option" onclick="filterByClient('mika')">mika</div>
+          <div class="client-option" onclick="filterByClient('noa')">noa</div>
+          <div class="client-option" onclick="filterByClient('omer')">omer</div>
+          <div class="client-option" onclick="filterByClient('renana')">renana</div>
+          <div class="client-option" onclick="filterByClient('shai')">shai</div>
+          <div class="client-option" onclick="filterByClient('shira')">shira</div>
+          <div class="client-option" onclick="filterByClient('shiri')">shiri</div>
+          <div class="client-option" onclick="filterByClient('sinay')">sinay</div>
+          <div class="client-option" onclick="filterByClient('yael')">yael</div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- GALLERY -->
+
+  <div class="gallery" id="gallery">
+
+    <div class="frame" data-date="2026-04-27" data-client="bat-hen">
+      <a href="#" class="img-link">
+        <img src="images/IMG_6151.jpeg">
+        <span class="date-text">27.4.2026</span>
+        <span class="name">bat-hen</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-04-17" data-client="maya">
+      <a href="#" class="img-link">
+        <img src="images/IMG_5498.jpeg">
+        <span class="date-text">17.4.2026</span>
+        <span class="name">maya</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-04-12" data-client="omer">
+      <a href="#" class="img-link">
+        <img src="images/IMG_5158.jpeg">
+        <span class="date-text">12.4.2026</span>
+        <span class="name">omer</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-04-06" data-client="bat-hen">
+      <a href="#" class="img-link">
+        <img src="images/IMG_4831.jpeg">
+        <span class="date-text">6.4.2026</span>
+        <span class="name">bat-hen</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-03-30" data-client="ahuva">
+      <a href="#" class="img-link">
+        <img src="images/IMG_4536.jpeg">
+        <span class="date-text">30.3.2026</span>
+        <span class="name">ahuva</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-03-27" data-client="mika">
+      <a href="#" class="img-link">
+        <img src="images/IMG_4352.jpeg">
+        <span class="date-text">27.3.2026</span>
+        <span class="name">mika</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-03-19" data-client="noa">
+      <a href="#" class="img-link">
+        <img src="images/IMG_3954.jpeg">
+        <span class="date-text">19.3.2026</span>
+        <span class="name">noa</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-03-15" data-client="shai">
+      <a href="#" class="img-link">
+        <img src="images/IMG_3758.jpeg">
+        <span class="date-text">15.3.2026</span>
+        <span class="name">shai</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-03-11" data-client="sinay">
+      <a href="#" class="img-link">
+        <img src="images/IMG_3554.jpeg">
+        <span class="date-text">11.3.2026</span>
+        <span class="name">sinay</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-02-16" data-client="abigail">
+      <a href="#" class="img-link">
+        <img src="images/IMG_2339.jpeg">
+        <span class="date-text">16.2.2026</span>
+        <span class="name">abigail</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-02-16" data-client="shiri">
+      <a href="#" class="img-link">
+        <img src="images/IMG_2360.jpeg">
+        <span class="date-text">16.2.2026</span>
+        <span class="name">shiri</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-01-26" data-client="giti">
+      <a href="#" class="img-link">
+        <img src="images/IMG_1456.jpeg">
+        <span class="date-text">26.1.2026</span>
+        <span class="name">giti</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-01-16" data-client="eden">
+      <a href="#" class="img-link">
+        <img src="images/IMG_1063.jpeg">
+        <span class="date-text">16.1.2026</span>
+        <span class="name">eden</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-01-09" data-client="shira">
+      <a href="#" class="img-link">
+        <img src="images/IMG_0693.jpeg">
+        <span class="date-text">9.1.2026</span>
+        <span class="name">shira</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2026-01-05" data-client="abigail">
+      <a href="#" class="img-link">
+        <img src="images/IMG_0553.jpeg">
+        <span class="date-text">5.1.2026</span>
+        <span class="name">abigail</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-12-12" data-client="yael">
+      <a href="#" class="img-link">
+        <img src="images/IMG_9161.jpeg">
+        <span class="date-text">12.12.2025</span>
+        <span class="name">yael</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-12-07" data-client="amit">
+      <a href="#" class="img-link">
+        <img src="images/IMG_8857.jpeg">
+        <span class="date-text">7.12.2025</span>
+        <span class="name">amit</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-12-03" data-client="abigail">
+      <a href="#" class="img-link">
+        <img src="images/IMG_8622.jpeg">
+        <span class="date-text">3.12.2025</span>
+        <span class="name">abigail</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-11-24" data-client="noa">
+      <a href="#" class="img-link">
+        <img src="images/IMG_8089.jpeg">
+        <span class="date-text">24.11.2025</span>
+        <span class="name">noa</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-11-13" data-client="omer">
+      <a href="#" class="img-link">
+        <img src="images/IMG_7594.jpeg">
+        <span class="date-text">13.11.2025</span>
+        <span class="name">omer</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-10-22" data-client="maya">
+      <a href="#" class="img-link">
+        <img src="images/IMG_6157.jpeg">
+        <span class="date-text">22.10.2025</span>
+        <span class="name">maya</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-10-09" data-client="sinay">
+      <a href="#" class="img-link">
+        <img src="images/IMG_5572.jpeg">
+        <span class="date-text">9.10.2025</span>
+        <span class="name">sinay</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-10-06" data-client="renana">
+      <a href="#" class="img-link">
+        <img src="images/IMG_5390.jpeg">
+        <span class="date-text">6.10.2025</span>
+        <span class="name">renana</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-09-29" data-client="giti">
+      <a href="#" class="img-link">
+        <img src="images/IMG_5107.jpeg">
+        <span class="date-text">29.9.2025</span>
+        <span class="name">giti</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-09-17" data-client="bat-hen">
+      <a href="#" class="img-link">
+        <img src="images/IMG_4587.jpeg">
+        <span class="date-text">17.9.2025</span>
+        <span class="name">bat-hen</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-08-24" data-client="kohelet">
+      <a href="#" class="img-link">
+        <img src="images/IMG_3367.jpeg">
+        <span class="date-text">24.8.2025</span>
+        <span class="name">kohelet</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-08-20" data-client="renana">
+      <a href="#" class="img-link">
+        <img src="images/IMG_3138.jpeg">
+        <span class="date-text">20.8.2025</span>
+        <span class="name">renana</span>
+      </a>
+    </div>
+
+    <div class="frame" data-date="2025-08-20" data-client="renana">
+      <a href="#" class="img-link">
+        <img src="images/IMG_3140.jpeg">
+        <span class="date-text">20.8.2025</span>
+        <span class="name">renana</span>
+      </a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+
+  <div class="footer">
+    <div>tal stroli</div>
+    <div>TALIS</div>
+    <div>2025-2026</div>
+  </div>
+
+  <script>
+
+    const gallery = document.getElementById('gallery');
+
+    function sortGallery(type){
+
+      const frames = Array.from(document.querySelectorAll('.frame'));
+
+      frames.forEach(frame=>{
+        frame.style.display='block';
+      });
+
+      if(type === 'new'){
+
+        frames.sort((a,b)=>
+          new Date(b.dataset.date)-new Date(a.dataset.date)
+        );
+
+      }
+
+      if(type === 'old'){
+
+        frames.sort((a,b)=>
+          new Date(a.dataset.date)-new Date(b.dataset.date)
+        );
+
+      }
+
+      frames.forEach(frame=>{
+        gallery.appendChild(frame);
+      });
+
+    }
+
+    function filterByClient(client){
+
+      const frames=document.querySelectorAll('.frame');
+
+      frames.forEach(frame=>{
+
+        if(client==='all'){
+
+          frame.style.display='block';
+
+        }else{
+
+          if(frame.dataset.client===client){
+
+            frame.style.display='block';
+
+          }else{
+
+            frame.style.display='none';
+
+          }
+
+        }
+
+      });
+
+    }
+
+  </script>
+
+</body>
+</html>
